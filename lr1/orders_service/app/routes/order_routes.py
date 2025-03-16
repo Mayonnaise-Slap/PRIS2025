@@ -1,0 +1,19 @@
+from fastapi import APIRouter, Depends
+from sqlmodel import Session
+from app.core.database import get_session
+from app.schemas.product_schema import OrderResponse, OrderCreate
+from app.services.product_service import create_order, get_order, get_orders
+
+router = APIRouter()
+
+@router.post("/", response_model=OrderResponse)
+def create_user(user: OrderCreate, session: Session = Depends(get_session)):
+    return create_order(session, user)
+
+@router.get("/", response_model=list[OrderResponse])
+def get_users(session: Session = Depends(get_session)):
+    return get_orders(session)
+
+@router.get("/{id}", response_model=OrderResponse)
+def get_user_details(id: int, session: Session = Depends(get_session)):
+    return get_order(session, id)
