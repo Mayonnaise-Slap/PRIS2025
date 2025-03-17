@@ -6,7 +6,7 @@ services:
       ports:
         - "5432:5432"
       volumes:
-        - 184e8592ccb7367406c41adf35489b7253c95e18bd621195b9f97323cccc16b3:/var/lib/postgresql/data
+        - ./pgdata:/var/lib/postgresql/data
       networks:
         - app-network
 
@@ -44,10 +44,6 @@ services:
         - users-service
       networks:
         - app-network
-
-volumes:
-  184e8592ccb7367406c41adf35489b7253c95e18bd621195b9f97323cccc16b3:
-    external: true
 
 networks:
   app-network:
