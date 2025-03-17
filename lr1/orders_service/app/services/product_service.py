@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from sqlmodel import Session
 
 from core.config import PRODUCTS_SERVICE_URL, USERS_SERVICE_URL
-from models import Order
+from models.order import Order
 from schemas.product_schema import OrderCreate
 
 
