@@ -1,8 +1,8 @@
 from sqlmodel import Session
 
-from app.models.product import Product
-from app.repositories.product_repository import get_product_by_id, get_products, create_product
-from app.schemas.product_schema import ProductCreate
+from models.product import Product
+from repositories.product_repository import get_product_by_id, get_products, create_product
+from schemas.product_schema import ProductCreate
 
 
 def register_product(session: Session, product_data: ProductCreate):

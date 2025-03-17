@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.routes.product_routes import router as product_router
+from routes.order_routes import router as order_routes
 
-app = FastAPI(title="Products API")
+app = FastAPI(title="Orders API")
 
-app.include_router(product_router, prefix="/products", tags=["Products"])
+app.include_router(order_routes, prefix="/orders", tags=["Orders"])

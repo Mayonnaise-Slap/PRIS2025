@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session
-from app.core.database import get_session
-from app.schemas.product_schema import OrderResponse, OrderCreate
-from app.services.product_service import create_order, get_order, get_orders
+from core.database import get_session
+from schemas.product_schema import OrderResponse, OrderCreate
+from services.product_service import create_order, get_order, get_orders
 
 router = APIRouter()
 

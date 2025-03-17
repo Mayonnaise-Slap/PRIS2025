@@ -2,9 +2,9 @@ import requests
 from fastapi import HTTPException
 from sqlmodel import Session
 
-from app.core.config import PRODUCTS_SERVICE_URL, USERS_SERVICE_URL
-from app.models import Order
-from app.schemas.product_schema import OrderCreate
+from core.config import PRODUCTS_SERVICE_URL, USERS_SERVICE_URL
+from models import Order
+from schemas.product_schema import OrderCreate
 
 
 def get_product(product_id: int):
