@@ -1,8 +1,6 @@
-from sqlmodel import create_engine, Session
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
+from sqlmodel import create_engine, Session
 
 DATABASE_URL = (
     f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
@@ -10,6 +8,7 @@ DATABASE_URL = (
 )
 
 engine = create_engine(DATABASE_URL, echo=True)
+
 
 def get_session():
     with Session(engine) as session:
