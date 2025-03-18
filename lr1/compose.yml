@@ -21,7 +21,7 @@ services:
       networks:
         - app-network
 
-  product-service:
+  products-service:
       build: ./products_service
       ports:
         - "${PRODUCTS_SERVICE_PORT}:8000"
@@ -40,7 +40,7 @@ services:
         - .env
       depends_on:
         - postgres
-        - product-service
+        - products-service
         - users-service
       networks:
         - app-network
