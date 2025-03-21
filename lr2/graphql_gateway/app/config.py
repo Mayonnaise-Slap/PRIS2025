@@ -1,0 +1,5 @@
+import os
+
+USERS_SERVICE_URL = f'http://{os.getenv("USERS_SERVICE_HOST")}:8000'
+PRODUCTS_SERVICE_URL = f'http://{os.getenv("PRODUCTS_SERVICE_HOST")}:8000'
+ORDERS_SERVICE_URL = f'http://{os.getenv("ORDERS_SERVICE_HOST")}:8000'

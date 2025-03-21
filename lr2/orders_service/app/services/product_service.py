@@ -14,7 +14,6 @@ def get_product(product_id: int):
         raise HTTPException(status_code=400, detail="Product not found")
     return response.json()
 
-
 def get_user(user_id: int):
     url = f"{USERS_SERVICE_URL}/{user_id}"
     print(url)
@@ -22,7 +21,6 @@ def get_user(user_id: int):
     if response.status_code == 404:
         raise HTTPException(status_code=400, detail="User not found")
     return response.json()
-
 
 def get_order_by_id(session, order_id):
     obj = session.query(Order).filter(Order.id == order_id).first()
