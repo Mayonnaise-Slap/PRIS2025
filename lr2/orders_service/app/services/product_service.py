@@ -2,8 +2,9 @@ from core.config import PRODUCTS_SERVICE_URL, USERS_SERVICE_URL
 from fastapi import HTTPException
 from models.order import Order
 from requests import Session as RequestsSession
-from schemas.product_schema import OrderCreate
+from schemas.product_schema import OrderCreate, OrderUpdate
 from sqlmodel import Session
+
 
 
 def get_product(product_id: int):
@@ -14,6 +15,7 @@ def get_product(product_id: int):
         raise HTTPException(status_code=400, detail="Product not found")
     return response.json()
 
+
 def get_user(user_id: int):
     url = f"{USERS_SERVICE_URL}/{user_id}"
     print(url)
@@ -21,6 +23,7 @@ def get_user(user_id: int):
     if response.status_code == 404:
         raise HTTPException(status_code=400, detail="User not found")
     return response.json()
+
 
 def get_order_by_id(session, order_id):
     obj = session.query(Order).filter(Order.id == order_id).first()
@@ -50,7 +53,7 @@ def create_order(session: Session, order: OrderCreate):
     return new_order
 
 
-def alter_order(session: Session, order_id: int, order_data: OrderCreate):
+def alter_order(session: Session, order_id: int, order_data: OrderUpdate):
     db_order = get_order(session, order_id)
     if not db_order:
         return HTTPException(status_code=404, detail="Order not found")
