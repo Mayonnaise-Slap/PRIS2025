@@ -62,8 +62,8 @@ def get_orders(session: Session):
                 quantity=obj.quantity,
                 status=obj.status,
                 created_at=obj.created_at,
-                user=get_user(obj.id),
-                product=get_product(obj.id)
+                user=get_user(obj.user_id),
+                product=get_product(obj.product_id)
             )
         )
 
