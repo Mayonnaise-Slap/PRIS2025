@@ -18,6 +18,8 @@ class OrderResponse(BaseModel):
     quantity: int
     status: str
     created_at: datetime
+    user: Optional[dict] = None
+    product: Optional[dict] = None
 
 class OrderUpdate(BaseModel):
     user_id: Optional[int] = None

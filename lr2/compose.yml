@@ -1,49 +1,50 @@
 services:
   postgres:
-      image: postgres:16-alpine
-      env_file:
-        - .env
-      ports:
-        - "5432:5432"
-      volumes:
-        - pgdata:/var/lib/postgresql/data
-      networks:
-        - app-network
+    image: postgres:16-alpine
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   users-service:
-      build: ./users_service
-      ports:
-        - "${USERS_SERVICE_PORT}:8000"
-      env_file:
-        - .env
-      depends_on:
-        - postgres
-      networks:
-        - app-network
+    build: ./users_service
+    ports:
+      - "${USERS_SERVICE_PORT}:8000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - app-network
 
   products-service:
-      build: ./products_service
-      ports:
-        - "${PRODUCTS_SERVICE_PORT}:8000"
-      env_file:
-        - .env
-      depends_on:
-        - postgres
-      networks:
-        - app-network
+    build: ./products_service
+    ports:
+      - "${PRODUCTS_SERVICE_PORT}:8000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - app-network
 
   orders-service:
-      build: ./orders_service
-      ports:
-        - "${ORDERS_SERVICE_PORT}:8000"
-      env_file:
-        - .env
-      depends_on:
-        - postgres
-        - products-service
-        - users-service
-      networks:
-        - app-network
+    build: ./orders_service
+    ports:
+      - "${ORDERS_SERVICE_PORT}:8000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - products-service
+      - users-service
+    networks:
+      - app-network
+
   graphql-gateway:
     build: ./graphql_gateway
     ports:
@@ -56,6 +57,16 @@ services:
       - orders-service
     env_file:
       - .env
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    env_file:
+      - .env
+    depends_on:
+      - graphql-gateway
+
 
 
 volumes:

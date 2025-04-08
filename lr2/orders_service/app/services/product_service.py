@@ -2,14 +2,13 @@ from core.config import PRODUCTS_SERVICE_URL, USERS_SERVICE_URL
 from fastapi import HTTPException
 from models.order import Order
 from requests import Session as RequestsSession
-from schemas.product_schema import OrderCreate, OrderUpdate
+from schemas.product_schema import OrderCreate, OrderUpdate, OrderResponse
 from sqlmodel import Session
 
 
 
 def get_product(product_id: int):
     url = f"{PRODUCTS_SERVICE_URL}/{product_id}"
-    print(url)
     response = RequestsSession().get(url)
     if response.status_code == 404:
         raise HTTPException(status_code=400, detail="Product not found")
@@ -18,7 +17,6 @@ def get_product(product_id: int):
 
 def get_user(user_id: int):
     url = f"{USERS_SERVICE_URL}/{user_id}"
-    print(url)
     response = RequestsSession().get(url)
     if response.status_code == 404:
         raise HTTPException(status_code=400, detail="User not found")
@@ -30,9 +28,21 @@ def get_order_by_id(session, order_id):
     if not obj:
         raise HTTPException(status_code=404, detail="Order not found")
 
-    get_product(obj.product_id)
-    get_user(obj.user_id)
-    return obj
+    product = get_product(obj.product_id)
+    user = get_user(obj.user_id)
+
+    order_response = OrderResponse(
+        id=obj.id,
+        user_id=obj.user_id,
+        product_id=obj.product_id,
+        quantity=obj.quantity,
+        status=obj.status,
+        created_at=obj.created_at,
+        user=user,
+        product=product
+    )
+
+    return order_response
 
 
 def get_order(session: Session, order_id: int):
@@ -40,7 +50,24 @@ def get_order(session: Session, order_id: int):
 
 
 def get_orders(session: Session):
-    return session.query(Order).all()
+    orders = session.query(Order).all()
+    orders_response = []
+
+    for obj in orders:
+        orders_response.append(
+            OrderResponse(
+                id=obj.id,
+                user_id=obj.user_id,
+                product_id=obj.product_id,
+                quantity=obj.quantity,
+                status=obj.status,
+                created_at=obj.created_at,
+                user=get_user(obj.id),
+                product=get_product(obj.id)
+            )
+        )
+
+    return orders_response
 
 
 def create_order(session: Session, order: OrderCreate):
